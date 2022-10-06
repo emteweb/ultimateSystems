@@ -1,3 +1,45 @@
+.wrapper{
+  background-color:ivory;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 30%;
+  margin: 10% auto;
+}
+
+.customized-btn{
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 50px;
+}
+
+/* .customized-form{
+  margin: 30px;
+} */
+
+.filterButtons{
+  display: flex;
+  border: 1px solid red;
+  justify-content: flex-end;
+}
+
+.loginButton{
+  color:#ffffff;
+  text-decoration: none;
+}
+
+.loginButton:hover{
+  color: #ffffff;
+}
+
+h1{
+  text-align: center;
+  padding: 30px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
 .App {
   text-align: center;
 }
