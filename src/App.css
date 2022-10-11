@@ -1,20 +1,121 @@
+:root{
+  margin:50px
+}
+
+.modal {
+  position: fixed;
+  top:60%;
+  left: 50%;
+  padding: 10px 15px 20px 55px;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  border: 1px solid black;
+  border-radius: 10px;
+  z-index: 10;
+  background-color: #FFFFFF;
+  width: 920px;
+  height: 210px;
+  max-width: 70%;
+}
+
+.modal.active{
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header{
+  padding-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header .title {
+  font-size: var(--font-size--big);
+  font-weight: bold;
+}
+
+.modal-header .close-button{
+  padding-left: 98%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.modal-body{
+  display: flex;
+  font-size: var(--font-size--default);
+  padding-top: 10px;
+}
+
+
+.initials-avatar{width:38px;height:38px;cursor:pointer;border-bottom-left-radius:50%;border-bottom-right-radius:50%;border-top-right-radius:50%;border-top-left-radius:50%;background-color:#6db34e;display:inline-block;box-sizing:border-box}.initials-avatar div{color:#fff;height:100%;display:flex;align-items:center;justify-content:center;font-style:inherit;font-weight:inherit}
+
+.mainContainer{
+  background-color: #eaeaea;
+}
+
+.componentBg{
+  background-color: #ffffff;
+  margin: 80px;
+}
+
+.mainBoxBorder{
+  border: 1px solid black;
+}
+
+editBtn{
+  justify-items: end;
+}
+
+.btn-new{
+  border: 1px solid #6db34e;
+  border-radius: 5px;
+  color: #ffffff;
+  background: #6db34e;
+}
 .wrapper{
-  background-color:ivory;
+  background-color:#ffffff;
   border: 1px solid black;
   border-radius: 5px;
   width: 30%;
   margin: 10% auto;
 }
 
-.customized-btn{
-  width: 80%;
-  margin-left: 10%;
-  margin-top: 50px;
+.formContainer{
+ 
+  width: 30%;
+  border:1px solid red;
+  
+  margin: auto;
+  min-height: 500px;
 }
 
-/* .customized-form{
-  margin: 30px;
-} */
+.loginTitle{
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.formInput{
+  margin-top: 80px;
+}
+
+.customized-btn{
+  width: 80%;
+  height: 40px;
+  margin-left: 10%;
+  margin-top: 50px;
+  color:#233f81;
+  background: #ffffff;
+  border: 1px solid #233f81;
+  border-radius: 5px;
+}
+
+.customized-btn:hover{
+  color: #ffffff;
+  background-color: #233f81;
+}
 
 .filterButtons{
   display: flex;
@@ -22,8 +123,28 @@
   justify-content: flex-end;
 }
 
-.loginButton{
-  color:#ffffff;
+.middle{
+  margin: auto;
+  width: 70%;
+
+  text-align: center;
+}
+.par1{
+  margin: 10px 0 0;
+  color: #233f81;
+}
+
+.alertParagraph{
+  text-align: center;
+  margin-top: 10px;
+  color: red;
+}
+
+.db{
+  display: block;
+}
+.register{
+  color: #233f81;
   text-decoration: none;
 }
 

@@ -1,47 +1,38 @@
-import React from "react";
+import React, { Component } from "react";
+import Table from "./common/table";
+import { Link } from "react-router-dom";
 
-const CustomersTable = (props) => {
-  const { customers, onSort } = props;
+/* import "react-initials-avatar/lib/ReactInitialsAvatar.css"; */
 
-  const renderSortIcon = () => {
-    if (props.sortColumn.order === "asc")
-      return <i className="fa fa-sort-asc"></i>;
-    return <i className="fa fa-sort-desc"></i>;
-  };
+class CustomersTable extends Component {
+  columns = [
+    { path: "avatar", key: "avatar" },
+    {
+      path: "name",
+      label: "Name",
+      content: (customer) => (
+        <Link to={`/customers/${customer._id}`}>{customer.name}</Link>
+      ),
+    },
+    { path: "surname", label: "Surname" },
+    { path: "email", label: "Email" },
+    { path: "birth_date", label: "Date of birth" },
+  ];
 
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Avatar</th>
-          <th className="clickable" onClick={() => onSort("name")}>
-            Name {renderSortIcon()}
-          </th>
-          <th className="clickable" onClick={() => onSort("surname")}>
-            Surname {renderSortIcon()}
-          </th>
-          <th className="clickable" onClick={() => onSort("email")}>
-            Email {renderSortIcon()}
-          </th>
-          <th className="clickable" onClick={() => onSort("date-of-birth")}>
-            Date-of-birth {renderSortIcon()}
-          </th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {customers.map((customer) => (
-          <tr key={customer._id}>
-            <td></td>
-            <td>{customer.name}</td>
-            <td>{customer.surname}</td>
-            <td>{customer.email}</td>
-            <td>{customer.birth_date}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+  render() {
+    const { customers, sortColumn, onSort } = this.props;
+
+    return (
+      <div className="container componentBg">
+        <Table
+          data={customers}
+          sortColumn={sortColumn}
+          onSort={onSort}
+          columns={this.columns}
+        />
+      </div>
+    );
+  }
+}
 
 export default CustomersTable;

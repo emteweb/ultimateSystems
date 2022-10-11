@@ -72,9 +72,10 @@ export function saveCustomer(customer) {
   customerInDb.surname = customer.surname;
   customerInDb.email = customer.email;
   customerInDb.birth_date = customer.birth_date;
+  customerInDb.isActive = customer.isActive
 
   if (!customerInDb._id) {
-    customerInDb._id = Date.now();
+    customerInDb._id = Date.now().toString();
     customers.push(customerInDb);
   }
 

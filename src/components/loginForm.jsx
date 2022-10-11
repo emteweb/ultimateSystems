@@ -1,9 +1,49 @@
-import React, { Component } from "react";
+import React from "react";
+import Joi from "joi-browser";
+import Form from "./common/form";
+import Customers from "./customers";
+
+class LoginForm extends Form {
+  state = {
+    data: { username: "", password: "" },
+    errors: {},
+  };
+
+  schema = {
+    username: Joi.string().required().label("Email"),
+    password: Joi.string().required().min(5).label("Password"),
+  };
+
+  doSubmit = () => {
+    // Call the server
+    console.log("Submitted");
+  };
+
+  render() {
+    return (
+      <div className="card formContainer">
+        <div className="card-body">
+          <h5 className="card-title loginTitle">Logowanie</h5>
+          <form onSubmit={this.handleSubmit}>
+            {this.renderInput("username", "Email")}
+            {this.renderInput("password", "Password", "password")}
+            <div className="formInput">{this.renderButton("Login")}</div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default LoginForm;
+
+/* import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Input from "./common/input";
 import Joi, { errors } from "joi-browser";
+import Form from "./common/form";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
   state = {
     account: { email: "", password: "" },
     errors: {},
@@ -14,52 +54,19 @@ class LoginForm extends Component {
     password: Joi.string().required(),
   };
 
-  validate = () => {
-    const result = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
-    console.log(result);
-    const errors = {};
-
-    const { account } = this.state;
-    if (account.email.trim() === "") errors.email = "Email is required.";
-    if (account.password.trim() === "")
-      errors.password = "Password is required.";
-
-    return Object.keys(errors).length === 0 ? null : errors;
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    // Call the server
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
+  doSubmit = () => {
     // Call the server
     console.log("Submitted :)");
   };
 
-  validateProperty = ({ name, value }) => {
-    if (name === "email") {
-      if (value.trim() === "") return "Email is required.";
-    }
-    if (name === "password") {
-      if (value.trim() === "") return "Password is required.";
-    }
-  };
-
-  handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
-    else delete errors[input.name];
-    const account = { ...this.state.account };
-    account[input.name] = input.value;
-    this.setState({ account, errors });
+  handleChange = (e) => {
+    const { account } = this.state.account;
+    account[e.currentTarget.name] = e.currentTarget.name;
+    this.setState({ account });
   };
 
   render() {
-    const { account, errors } = this.state;
+    const { data, errors } = this.state;
 
     return (
       <div className="wrapper">
@@ -67,25 +74,34 @@ class LoginForm extends Component {
         <form className="m-4" onSubmit={this.handleSubmit}>
           <Input
             name="email"
+            type="text"
             value={account.email}
             label="Email address"
             onChange={this.handleChange}
             error={errors.email}
           />
+
           <Input
             name="password"
-            value={account.password}
+            type="password"
+            value={data.password}
             label="Password"
             onChange={this.handleChange}
             error={errors.password}
           />
 
-          <button type="submit" className="btn btn-primary customized-btn">
-            {/* <Link className="loginButton" to="/customers">
-              Login
-            </Link> */}
+          <button disabled={this.validate()} className="customized-btn">
             Login
+            <Link to="/customers"></Link>
           </button>
+          <div className="middle">
+            <p className="par1">Don't have an account?</p>
+            <button className="btn btn-light btn-sm">
+              <Link className="register" to="/register">
+                Register
+              </Link>
+            </button>
+          </div>
         </form>
       </div>
     );
@@ -93,3 +109,4 @@ class LoginForm extends Component {
 }
 
 export default LoginForm;
+ */

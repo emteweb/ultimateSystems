@@ -35,6 +35,11 @@ const NavBar = () => {
                 Login
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/customers/new">
+                New User
+              </NavLink>
+            </li>
           </ul>
         </div>
       </div>

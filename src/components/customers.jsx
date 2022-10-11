@@ -2,24 +2,34 @@ import React, { Component } from "react";
 import { getCustomers } from "./../services/fakeCustomerService";
 import Pagination from "./pagination";
 import { paginate } from "./../utils/paginate";
-import CustomerFilter from "./customerFilter";
 import CustomersTable from "./customersTable";
 import _ from "lodash";
 import NavBar from "./navBar";
+import FilterBox from "./filterBox";
+import EditButton from "./editButton";
 
 class Customers extends Component {
   state = {
-    customers: getCustomers(),
-    pageSize: 7,
+    customers: [],
+    pageSize: 6,
     currentPage: 1,
+    searchQuery: "",
     sortColumn: { path: "name", order: "asc" },
   };
 
-  handleDelete = (customer) => {
+  componentDidMount() {
+    this.setState({ customers: getCustomers() });
+  }
+
+  /*   handleDelete = (customer) => {
     const customers = this.state.customers.filter(
       (c) => c._id !== customer._id
     );
     this.setState({ customers });
+  }; */
+
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
   };
 
   handlePageChange = (page) => {
@@ -30,26 +40,22 @@ class Customers extends Component {
     if (id === "active") {
       const active = getCustomers().filter((c) => c.isActive);
       this.setState({ customers: active });
-      console.log(active);
+      console.log("Active: ", active);
+      console.log("State in ACTIVE: ", this.state.customers);
+      console.log(this.state.customers.length);
     } else if (id === "inactive") {
       const inactive = getCustomers().filter((c) => !c.isActive);
       this.setState({ customers: inactive });
-      console.log(inactive);
+      console.log("Inactive: ", inactive);
+      console.log("State in INACTIVE: ", this.state.customers);
     } else {
       this.setState({ customers: getCustomers() });
-      console.log(this.state.customers);
+      console.log("State in ALL: ", this.state.customers);
     }
   };
 
-  handleSort = (path) => {
-    const sortColumn = { ...this.state.sortColumn };
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
-    this.setState({ sortColumn });
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, currentPage: 1 });
   };
 
   render() {
@@ -59,37 +65,47 @@ class Customers extends Component {
       currentPage,
       customers: allCustomers,
       sortColumn,
+      searchQuery,
     } = this.state;
 
     if (count === 0) return <p>There are no customers in the database.</p>;
 
-    const sorted = _.orderBy(
-      allCustomers,
-      [sortColumn.path],
-      [sortColumn.order]
-    );
+    let sorted = _.orderBy(allCustomers, [sortColumn.path], [sortColumn.order]);
 
+    if (searchQuery)
+      sorted = allCustomers.filter(
+        (c) =>
+          c.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ||
+          c.surname.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
     const customers = paginate(sorted, currentPage, pageSize);
 
     return (
       <React.Fragment>
-        <NavBar />
-        <CustomerFilter onFilterClick={(id) => this.handleFilterClick(id)} />
+        <div className="mainContainer">
+          <NavBar />
 
-        <p>Showing {count} customers in the database.</p>
+          <FilterBox
+            value={searchQuery}
+            onChange={this.handleSearch}
+            onFilterClick={(id) => this.handleFilterClick(id)}
+          />
 
-        <CustomersTable
-          customers={customers}
-          onSort={this.handleSort}
-          sortColumn={sortColumn}
-        />
+          <EditButton />
 
-        <Pagination
-          itemsCount={count}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={this.handlePageChange}
-        />
+          <CustomersTable
+            customers={customers}
+            onSort={this.handleSort}
+            sortColumn={sortColumn}
+          />
+
+          <Pagination
+            itemsCount={count}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </React.Fragment>
     );
   }
